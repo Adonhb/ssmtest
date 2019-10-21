@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 扫描组件，并注册到spring容器中 -->
+    <context:component-scan base-package="edu.etime.ssmtest.controllers"></context:component-scan>
+
+    <!-- 开启spring-mvc注解 -->
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!-- 过滤静态资源 -->
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+
+    <!--  配置转换器  -->
+    <mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
+    <!-- 自定义参数绑定组件 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <!-- 转换器 -->
+        <property name="converters">
+            <set>
+                <!--日期类型转换-->
+                <bean class="edu.etime.ssmtest.controllers.converter.CustomDateConverter" ></bean>
+            </set>
+        </property>
+
+
+    </bean>
+
+    <!-- 配置视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+        <property name="prefix" value="/WEB-INF/jsp/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+</beans>
